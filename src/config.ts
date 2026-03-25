@@ -1,7 +1,7 @@
 export const SITE = {
   title: "Andrey Letov",
   description:
-    "Product Manager who can code. Building at the intersection of Fintech, Regtech, and AI.",
+    "Product Manager who Builds. At the intersection of Fintech, Regtech, and AI.",
   author: "Andrey Letov",
   url: "https://aletik.me",
 };
@@ -16,7 +16,7 @@ export const GITHUB_BLOG = {
 export const SOCIAL = {
   github: "https://github.com/aletikme",
   linkedin: "https://www.linkedin.com/in/andreyletov/",
-  email: "mailto:andrey@aletik.me",
+  email: "mailto:aletik@gmail.com",
 };
 
 export const NAV_ITEMS = [
