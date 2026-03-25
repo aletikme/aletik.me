@@ -125,7 +125,7 @@ function rawUrl(cfg: GitHubBlogConfig, filePath: string): string {
 export async function fetchPostList(
   cfg: GitHubBlogConfig,
 ): Promise<BlogPost[]> {
-  const cached = getCache<BlogPost[]>("list");
+  const cached = getCache<BlogPost[]>(`${cfg.contentPath}_list`);
   if (cached) return cached;
 
   const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.contentPath}?ref=${cfg.branch}`;
@@ -167,7 +167,7 @@ export async function fetchPostList(
     .filter((p): p is BlogPost => p !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  setCache("list", sorted);
+  setCache(`${cfg.contentPath}_list`, sorted);
   return sorted;
 }
 
@@ -178,7 +178,7 @@ export async function fetchPost(
   slug: string,
   cfg: GitHubBlogConfig,
 ): Promise<BlogPost | null> {
-  const cached = getCache<BlogPost>(`post_${slug}`);
+  const cached = getCache<BlogPost>(`${cfg.contentPath}_${slug}`);
   if (cached) return cached;
 
   const url = rawUrl(cfg, `${cfg.contentPath}/${slug}.md`);
@@ -199,7 +199,7 @@ export async function fetchPost(
     content,
   };
 
-  setCache(`post_${slug}`, post);
+  setCache(`${cfg.contentPath}_${slug}`, post);
   return post;
 }
 

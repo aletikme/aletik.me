@@ -13,6 +13,13 @@ export const GITHUB_BLOG = {
   contentPath: "posts", // Folder path within the repo
 };
 
+export const GITHUB_PROJECTS = {
+  owner: "aletikme",
+  repo: "aletik.me",
+  branch: "main",
+  contentPath: "projects",
+};
+
 export const SOCIAL = {
   github: "https://github.com/aletikme",
   linkedin: "https://www.linkedin.com/in/andreyletov/",
@@ -21,5 +28,6 @@ export const SOCIAL = {
 
 export const NAV_ITEMS = [
   { label: "Posts", href: "/posts" },
+  { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
 ];
