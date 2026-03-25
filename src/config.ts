@@ -1,7 +1,7 @@
 export const SITE = {
   title: "Andrey Letov",
   description:
-    "Product Manager who Builds. At the intersection of Fintech, Regtech, and AI.",
+    "Product Manager who Builds at the intersection of Fintech and AI.",
   author: "Andrey Letov",
   url: "https://aletik.me",
 };
