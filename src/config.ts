@@ -8,7 +8,7 @@ export const SITE = {
 
 export const GITHUB_BLOG = {
   owner: "aletikme", // Your GitHub username
-  repo: "blog", // Repository containing blog markdown files
+  repo: "aletik.me", // Repository containing blog markdown files
   branch: "main",
   contentPath: "posts", // Folder path within the repo
 };
