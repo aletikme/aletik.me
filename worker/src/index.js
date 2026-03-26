@@ -157,20 +157,36 @@ function parseFrontmatter(content, contentPath) {
     }
   }
 
+  const body = content.replace(/^---[\s\S]*?---/, "");
+
   // Try frontmatter image first, then extract first image from markdown body
   let image = data.heroImage || data.image || data.ogImage || "";
   if (!image) {
-    const body = content.replace(/^---[\s\S]*?---/, "");
     const imgMatch = body.match(/!\[[^\]]*\]\(([^)]+)\)/);
     if (imgMatch) {
-      const src = imgMatch[1];
-      image = src;
+      image = imgMatch[1];
+    }
+  }
+
+  // Use frontmatter description, but if too short (<100 chars) extract from body
+  let description = data.description || data.excerpt || "";
+  if (description.length < 100) {
+    const short = description;
+    const paragraphs = body
+      .split(/\n\n+/)
+      .map(p => p.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/[#*_`>\-\[\]]/g, "").replace(/\s+/g, " ").trim())
+      .filter(p => p.length > 100 && !p.startsWith("1.") && p !== short);
+    if (paragraphs.length > 0) {
+      description = paragraphs[0];
+    }
+    if (description.length > 200) {
+      description = description.slice(0, 197) + "...";
     }
   }
 
   return {
     title: data.title || "",
-    description: data.description || data.excerpt || "",
+    description,
     image,
     date: data.date || "",
   };
