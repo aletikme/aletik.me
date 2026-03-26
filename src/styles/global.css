@@ -107,15 +107,16 @@ html {
 /* Image captions styled by JS-added .image-caption class */
 .prose .image-caption {
   text-align: center;
-  font-size: 0.8rem;
-  margin-top: 0.2em;
-  margin-bottom: 1.5em;
-  color: #64748b;
-  font-style: italic;
+  font-size: 0.5em;
+  line-height: 1.4;
+  margin-top: 0.4em;
+  margin-bottom: 2em;
+  color: #6b7280;
+  font-style: normal;
 }
 
 .dark .prose .image-caption {
-  color: #94a3b8;
+  color: #9ca3af;
 }
 
 .prose code {
