@@ -1,10 +1,10 @@
 ---
-title: GasTown
+title: MacOs Port
 date: 2026-03-25
-description: AI-powered multi-agent framework for open-source product development.
+description: MacOS Port of a popular Windows application
 tags: [ai, multi-agent, open-source]
 ---
 
-GasTown is a multi-agent setup for AI-powered open-source product development.
+MacOS port of a populat windows application.
 
 More details coming soon.
