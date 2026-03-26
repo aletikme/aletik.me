@@ -5,11 +5,25 @@ description: How an NVIDIA Tesla A2 and L4 Found a Home in HP Microserver Gen8 t
 tags: [nvidia, gpu, virtualization]
 ---
 
+*How an NVIDIA Tesla A2 and L4 Found a Home in HP Microserver Gen8 that Shouldn't Support Them*
+
 ![Old HP MicroServer Gen8 with with NVIDIA A2 and L4 and little Robots](the-impossible-nvidia-gpus/banner.png)
 
-This is a story about two pieces of hardware that were never supposed to meet.
+## Outline
+
+1. Two Worlds Apart
+2. The BAR Wall
+3. The Chicken-and-Egg Problem
+4. The Breakthrough
+5. The Recipe
+6. Can Gen8 handle GPU Temperature
+7. Epilogue
+
+---
 
 ## 1. Two Worlds Apart
+
+This is a story about two pieces of hardware that were never supposed to meet.
 
 On one side is the **HP MicroServer Gen8**, a compact 8×8-inch server from 2012 that still has a devoted following thanks to its flexibility, elegant design, and tiny footprint. It shipped with Intel's Ivy Bridge architecture, a C204 chipset, and a PCIe slot that was perfectly adequate for its era. It was built for small offices and tinkerers, a humble workhorse designed to serve files, run a few VMs, and not cause trouble.
 
@@ -135,8 +149,10 @@ You MUST use the Open Source driver, not the default closed driver. The closed d
 After the reboot, SSH into Unraid run: **nvidia-smi**
 
 ![NVIDIA A2](the-impossible-nvidia-gpus/smiA2.png)
+*nvidia-smi output for NVIDIA A2*
 
 ![NVIDIA L4](the-impossible-nvidia-gpus/gmiL4.png)
+*nvidia-smi output for NVIDIA L4*
 
 If everything is right, you'll see something like:
 
@@ -193,6 +209,7 @@ After reboot, the moment you've been working toward: **nvidia-smi**
 Bingo, you got A2/L4 GPU with all VRAM and CUDA, running inside a VM, on a micro server from 2012.
 
 ![MicroServer Gen8 with NVIDIA L4](the-impossible-nvidia-gpus/gen8.png)
+*MicroServer Gen8 running NVIDIA L4 in a VM*
 
 ### Prove It Works
 
@@ -210,12 +227,16 @@ One hundred seconds of gpu-burn on the A2 and L4. Zero errors but temps were run
 ## 6. Can Gen8 handle GPU Temperature
 
 ![NVIDIA L4 and A2 GPUs Melting without micro fan shrouds](the-impossible-nvidia-gpus/gpu-hot.png)
+*NVIDIA L4 and A2 GPUs melting without micro fan shrouds*
 
 The MicroServer Gen8 has a large chassis fan with automatically adjustable RPM to cool things down inside the server. It also has several temperature sensors to monitor and adjust RPMs dynamically and show you hotspots very nicely.
 
 However, because the A2 and L4 are passively cooled and fully enclosed, this airflow alone is not sufficient. You need to add a small 40mm or a double 30mm fan with a shroud. To power the fan(s) you can connect to a spare SATA 5V power via the 15pin SATA to 3pin/2pin fan power cable(s).
 
 I got a low profile, small footprint A2, L4, T4 shroud specifically designed for micro servers/MicroServer Gen8 off Ebay, which fits nicely inside the Gen8 case and keeps the GPU nice and cool. You can also wire the fan via a temperature sensor and make your fan(s) RPMs dynamic.
+
+![A2 with a 40mm fan shroud from Ebay](the-impossible-nvidia-gpus/L4-fan.webp)
+*A2 with a 40mm fan shroud I got from Ebay. It looks same on my L4*
 
 With the shroud and 40mm fan the temperature barely gets above 70C. I presume the double 30mm fan shroud may add some redundancy if one fan fails.
 
