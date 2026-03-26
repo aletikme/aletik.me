@@ -5,6 +5,8 @@ description: How an NVIDIA Tesla A2 and L4 Found a Home in HP Microserver Gen8 t
 tags: [nvidia, gpu, virtualization]
 ---
 
+![Old HP MicroServer Gen8 with with NVIDIA A2 and L4 and little Robots](the-impossible-nvidia-gpus/banner.png)
+
 This is a story about two pieces of hardware that were never supposed to meet.
 
 ## 1. Two Worlds Apart
@@ -132,6 +134,10 @@ You MUST use the Open Source driver, not the default closed driver. The closed d
 
 After the reboot, SSH into Unraid run: **nvidia-smi**
 
+![NVIDIA A2](the-impossible-nvidia-gpus/smiA2.png)
+
+![NVIDIA L4](the-impossible-nvidia-gpus/gmiL4.png)
+
 If everything is right, you'll see something like:
 
 ```
@@ -186,6 +192,8 @@ After reboot, the moment you've been working toward: **nvidia-smi**
 
 Bingo, you got A2/L4 GPU with all VRAM and CUDA, running inside a VM, on a micro server from 2012.
 
+![MicroServer Gen8 with NVIDIA L4](the-impossible-nvidia-gpus/gen8.png)
+
 ### Prove It Works
 
 Trust but verify. Install gpu-burn and give it a proper stress test:
@@ -200,6 +208,8 @@ cd gpu-burn && make
 One hundred seconds of gpu-burn on the A2 and L4. Zero errors but temps were running hot climbing to 80C in seconds, which made me install a low profile 40mm fan shroud designed for micro servers.
 
 ## 6. Can Gen8 handle GPU Temperature
+
+![NVIDIA L4 and A2 GPUs Melting without micro fan shrouds](the-impossible-nvidia-gpus/gpu-hot.png)
 
 The MicroServer Gen8 has a large chassis fan with automatically adjustable RPM to cool things down inside the server. It also has several temperature sensors to monitor and adjust RPMs dynamically and show you hotspots very nicely.
 
