@@ -138,22 +138,38 @@ import { SITE, SOCIAL, GITHUB_BLOG } from "../config";
       }
 
       const recent = posts.slice(0, 5);
+
+      // Extract first image from markdown content
+      function getFirstImage(content: string, slug: string): string | null {
+        const match = content.match(/!\[[^\]]*\]\(([^)]+)\)/);
+        if (!match) return null;
+        const src = match[1];
+        if (src.startsWith("http")) return src;
+        return `https://raw.githubusercontent.com/${GITHUB_BLOG.owner}/${GITHUB_BLOG.repo}/${GITHUB_BLOG.branch}/${GITHUB_BLOG.contentPath}/${src}`;
+      }
+
       list.innerHTML = recent
         .map(
-          (post) => `
+          (post) => {
+            const img = getFirstImage(post.content, post.slug);
+            return `
         <a href="/post?slug=${encodeURIComponent(post.slug)}"
-           class="block p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
-          <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
-            ${post.title}
-          </h3>
-          <div class="flex items-center gap-3 mt-1 text-sm text-slate-500 dark:text-slate-400">
-            ${post.date ? `<time>${formatDate(post.date)}</time>` : ""}
-            <span>&middot;</span>
-            <span>${readingTime(post.content)} min read</span>
+           class="flex gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
+          ${img ? `<img src="${img}" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-lg shrink-0" />` : ""}
+          <div class="min-w-0">
+            <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
+              ${post.title}
+            </h3>
+            <div class="flex items-center gap-3 mt-1 text-sm text-slate-500 dark:text-slate-400">
+              ${post.date ? `<time>${formatDate(post.date)}</time>` : ""}
+              <span>&middot;</span>
+              <span>${readingTime(post.content)} min read</span>
+            </div>
+            ${post.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${post.description}</p>` : ""}
           </div>
-          ${post.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${post.description}</p>` : ""}
         </a>
-      `,
+      `;
+          },
         )
         .join("");
       list.classList.remove("hidden");

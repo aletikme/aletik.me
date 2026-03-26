@@ -124,6 +124,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const rewritten = rewriteImagePaths(post.content, GITHUB_BLOG);
       bodyEl.innerHTML = await marked.parse(rewritten);
 
+      // Style image captions: find <p> tags containing <img> followed by <em>
+      bodyEl.querySelectorAll("p").forEach((p) => {
+        const img = p.querySelector("img");
+        const em = p.querySelector("em");
+        if (img && em && p.childNodes.length <= 3) {
+          // Move caption out into its own <p class="image-caption">
+          const caption = document.createElement("p");
+          caption.className = "image-caption";
+          caption.textContent = em.textContent;
+          // Keep only the image in the original <p>
+          p.innerHTML = "";
+          p.appendChild(img);
+          p.after(caption);
+        }
+      });
+
       // Make external links open in new tab
       bodyEl.querySelectorAll("a").forEach((a) => {
         const href = a.getAttribute("href");

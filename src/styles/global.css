@@ -104,16 +104,17 @@ html {
   height: auto;
 }
 
-/* Image captions: italic paragraph immediately after an image */
-.prose p:has(> img) + p:has(> em:only-child) {
+/* Image captions styled by JS-added .image-caption class */
+.prose .image-caption {
   text-align: center;
   font-size: 0.8rem;
-  margin-top: 0.25em;
+  margin-top: 0.2em;
   margin-bottom: 1.5em;
   color: #64748b;
+  font-style: italic;
 }
 
-.dark .prose p:has(> img) + p:has(> em:only-child) {
+.dark .prose .image-caption {
   color: #94a3b8;
 }
 
