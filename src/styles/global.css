@@ -99,9 +99,22 @@ html {
 
 .prose img {
   border-radius: 0.5rem;
-  margin: 1.5em 0;
+  margin: 1.5em 0 0;
   max-width: 100%;
   height: auto;
+}
+
+/* Image captions: italic paragraph immediately after an image */
+.prose p:has(> img) + p:has(> em:only-child) {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+  color: #64748b;
+}
+
+.dark .prose p:has(> img) + p:has(> em:only-child) {
+  color: #94a3b8;
 }
 
 .prose code {
