@@ -66,27 +66,42 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         return;
       }
 
+      // Extract first image from markdown content
+      function getFirstImage(content: string): string | null {
+        const match = content.match(/!\[[^\]]*\]\(([^)]+)\)/);
+        if (!match) return null;
+        const src = match[1];
+        if (src.startsWith("http")) return src;
+        return `https://raw.githubusercontent.com/${GITHUB_PROJECTS.owner}/${GITHUB_PROJECTS.repo}/${GITHUB_PROJECTS.branch}/${GITHUB_PROJECTS.contentPath}/${src}`;
+      }
+
       list.innerHTML = projects
         .map(
-          (project) => `
+          (project) => {
+            const img = getFirstImage(project.content);
+            return `
           <a href="/project?slug=${encodeURIComponent(project.slug)}"
-             class="block p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
-            <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
-              ${project.title}
-            </h3>
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-slate-500 dark:text-slate-400">
-              ${project.date ? `<time>${formatDate(project.date)}</time>` : ""}
-              <span>&middot;</span>
-              <span>${readingTime(project.content)} min read</span>
-              ${
-                project.tags.length > 0
-                  ? `<span>&middot;</span><span class="text-xs">${project.tags.map((t: string) => `<span class="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full mr-1">${t}</span>`).join("")}</span>`
-                  : ""
-              }
+             class="flex gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
+            ${img ? `<img src="${img}" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-lg shrink-0" />` : ""}
+            <div class="min-w-0">
+              <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
+                ${project.title}
+              </h3>
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-slate-500 dark:text-slate-400">
+                ${project.date ? `<time>${formatDate(project.date)}</time>` : ""}
+                <span>&middot;</span>
+                <span>${readingTime(project.content)} min read</span>
+                ${
+                  project.tags.length > 0
+                    ? `<span>&middot;</span><span class="text-xs">${project.tags.map((t: string) => `<span class="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full mr-1">${t}</span>`).join("")}</span>`
+                    : ""
+                }
+              </div>
+              ${project.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${project.description}</p>` : ""}
             </div>
-            ${project.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${project.description}</p>` : ""}
           </a>
-        `,
+        `;
+          },
         )
         .join("");
 

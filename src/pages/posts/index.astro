@@ -78,6 +78,15 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
       const years = Object.keys(grouped).sort((a, b) => (b === "Undated" ? -1 : Number(b) - Number(a)));
 
+      // Extract first image from markdown content
+      function getFirstImage(content: string): string | null {
+        const match = content.match(/!\[[^\]]*\]\(([^)]+)\)/);
+        if (!match) return null;
+        const src = match[1];
+        if (src.startsWith("http")) return src;
+        return `https://raw.githubusercontent.com/${GITHUB_BLOG.owner}/${GITHUB_BLOG.repo}/${GITHUB_BLOG.branch}/${GITHUB_BLOG.contentPath}/${src}`;
+      }
+
       list.innerHTML = years
         .map(
           (year) => `
@@ -86,25 +95,31 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           <div class="space-y-3">
             ${grouped[year]
               .map(
-                (post) => `
+                (post) => {
+                  const img = getFirstImage(post.content);
+                  return `
               <a href="/post?slug=${encodeURIComponent(post.slug)}"
-                 class="block p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
-                <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
-                  ${post.title}
-                </h3>
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  ${post.date ? `<time>${formatDate(post.date)}</time>` : ""}
-                  <span>&middot;</span>
-                  <span>${readingTime(post.content)} min read</span>
-                  ${
-                    post.tags.length > 0
-                      ? `<span>&middot;</span><span class="text-xs">${post.tags.map((t: string) => `<span class="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full mr-1">${t}</span>`).join("")}</span>`
-                      : ""
-                  }
+                 class="flex gap-4 p-4 rounded-lg border border-slate-200 dark:border-slate-700/50 hover:border-[var(--color-accent)] dark:hover:border-[var(--color-accent-dark)] hover:shadow-sm transition-all group">
+                ${img ? `<img src="${img}" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-lg shrink-0" />` : ""}
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-[var(--color-accent)] dark:group-hover:text-[var(--color-accent-dark)] transition-colors">
+                    ${post.title}
+                  </h3>
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    ${post.date ? `<time>${formatDate(post.date)}</time>` : ""}
+                    <span>&middot;</span>
+                    <span>${readingTime(post.content)} min read</span>
+                    ${
+                      post.tags.length > 0
+                        ? `<span>&middot;</span><span class="text-xs">${post.tags.map((t: string) => `<span class="inline-block bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full mr-1">${t}</span>`).join("")}</span>`
+                        : ""
+                    }
+                  </div>
+                  ${post.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${post.description}</p>` : ""}
                 </div>
-                ${post.description ? `<p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">${post.description}</p>` : ""}
               </a>
-            `,
+            `;
+                },
               )
               .join("")}
           </div>
