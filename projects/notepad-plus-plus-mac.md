@@ -5,7 +5,7 @@ description: Native macOS verion of Notepad++ Source code and Text editor
 tags: [macOS, open-source, code-editor]
 ---
 
-![Notepad++ running on macOS](npp_256x256.png)
+![Notepad++ running on macOS](npp_512x512.png)
 
 Notepad++ has been one of the most popular source code editors on Windows for almost two decades, with close to 500 million downloads, it's loved by developers for its speed, simplicity, and extensive language support. I always wanted to have the same simple yet powerful editor on my Mac. For 4 months now, I have been using multiagent AI workflows and in mid-March 2026 I decided to take on the task of porting Notepad++ to macOS as a native application. The macOS version retains most that made the original great, which is syntax highlighting for 80+ programming languages, powerful regex-based search and replace, split view editing, macro recording, and a plugin ecosystem. I think that gradually it will be feeling right at home on the Mac. It runs on macOS 11 and later, launches instantly on Intel and M-series chips.
 
