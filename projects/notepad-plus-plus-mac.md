@@ -13,7 +13,7 @@ Notepad++ has been one of the most popular source code editors on Windows for al
 ![Notepad++ running on macOS](notepad-plus-plus-mac/npp_screen03.png)
 
 
-There are still quite a few quirks to iron out. Panels are still not dockable. There are not as many preferences compared to the Windows version. But there are a few cool things like SHIFT+COMMAND+P which opens spotlight search in Notepad++ macOS version. I also added a few  more languages to Notepad++ localization bringing it up to 137 from 94.   
+There are still quite a few quirks to iron out. Panels are still not dockable. There are not as many preferences compared to the Windows version. But there are a few cool things like ⇧⌘P which opens spotlight search in Notepad++ macOS version. I also added a few  more languages to Notepad++ localization bringing it up to 137 from 94.   
 
 
 ![Notepad++ running on macOS](notepad-plus-plus-mac/npp_screen02.png)
